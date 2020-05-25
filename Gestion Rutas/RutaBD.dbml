@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Rutas" Class="RutaBDDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=DESKTOP-3NJ49RM\SQLEXPRESS;Initial Catalog=Rutas;Persist Security Info=True;User ID=sa" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="RutasConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Asignacion_Ruta" Member="Asignacion_Ruta">
+    <Type Name="Asignacion_Ruta">
+      <Column Name="id_asignacion" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="id_ruta" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="id_usuario" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="fecha_asignacion" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="hora_asignacion" Type="System.TimeSpan" DbType="Time NOT NULL" CanBeNull="false" />
+      <Column Name="estado_asignacion" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Asignacion_Ruta_Devolucion" Member="Devolucion" ThisKey="id_asignacion" OtherKey="id_asignacion" Type="Devolucion" />
+      <Association Name="Asignacion_Ruta_Entrega" Member="Entrega" ThisKey="id_asignacion" OtherKey="id_asignacion" Type="Entrega" />
+      <Association Name="Usuario_Asignacion_Ruta" Member="Usuario" ThisKey="id_usuario" OtherKey="id_usuario" Type="Usuario" IsForeignKey="true" />
+      <Association Name="Ruta_Asignacion_Ruta" Member="Ruta" ThisKey="id_ruta" OtherKey="id_ruta" Type="Ruta" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Usuario" Member="Usuario">
+    <Type Name="Usuario">
+      <Column Name="id_usuario" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="usuario_" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="nombre_usuario" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="telefono_usuario" Type="System.String" DbType="VarChar(9) NOT NULL" CanBeNull="false" />
+      <Column Name="correo_usuario" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="contraseña_usuario" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="puesto_usuario" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="estado_usuario" Type="System.Decimal" DbType="Decimal(1,0) NOT NULL" CanBeNull="false" />
+      <Association Name="Usuario_Asignacion_Ruta" Member="Asignacion_Ruta" ThisKey="id_usuario" OtherKey="id_usuario" Type="Asignacion_Ruta" />
+      <Association Name="Usuario_Factura" Member="Factura" ThisKey="id_usuario" OtherKey="id_usuario" Type="Factura" />
+      <Association Name="Usuario_Pedido" Member="Pedido" ThisKey="id_usuario" OtherKey="id_usuario" Type="Pedido" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Auditoria" Member="Auditoria">
+    <Type Name="Auditoria">
+      <Column Name="fecha" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="usuario" Type="System.String" DbType="VarChar(35)" CanBeNull="true" />
+      <Column Name="tipo_trans" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Detalle_Factura" Member="Detalle_Factura">
+    <Type Name="Detalle_Factura">
+      <Column Name="id_detalleFactura" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="id_factura" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="id_producto" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="cantidad" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="precio" Type="System.Decimal" DbType="Decimal(6,2) NOT NULL" CanBeNull="false" />
+      <Column Name="subtotal" Type="System.Decimal" DbType="Decimal(10,2) NOT NULL" CanBeNull="false" />
+      <Association Name="Factura_Detalle_Factura" Member="Factura" ThisKey="id_factura" OtherKey="id_factura" Type="Factura" IsForeignKey="true" />
+      <Association Name="Producto_Detalle_Factura" Member="Producto" ThisKey="id_producto" OtherKey="id_producto" Type="Producto" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Detalle_Pedido" Member="Detalle_Pedido">
+    <Type Name="Detalle_Pedido">
+      <Column Name="id_detalle" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="id_pedido" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="id_producto" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="cantidad" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="precio_producto" Type="System.Decimal" DbType="Money NOT NULL" CanBeNull="false" />
+      <Column Name="subtotal" Type="System.Decimal" DbType="Money NOT NULL" CanBeNull="false" />
+      <Association Name="Pedido_Detalle_Pedido" Member="Pedido" ThisKey="id_pedido" OtherKey="id_pedido" Type="Pedido" IsForeignKey="true" />
+      <Association Name="Producto_Detalle_Pedido" Member="Producto" ThisKey="id_producto" OtherKey="id_producto" Type="Producto" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Devolucion" Member="Devolucion">
+    <Type Name="Devolucion">
+      <Column Name="id_devolucion" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="id_producto" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="id_asignacion" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="id_punto" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="cantidad" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="motivo" Type="System.Decimal" DbType="Decimal(1,0) NOT NULL" CanBeNull="false" />
+      <Column Name="descripcion" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="fecha_devolucion" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Association Name="Asignacion_Ruta_Devolucion" Member="Asignacion_Ruta" ThisKey="id_asignacion" OtherKey="id_asignacion" Type="Asignacion_Ruta" IsForeignKey="true" />
+      <Association Name="Producto_Devolucion" Member="Producto" ThisKey="id_producto" OtherKey="id_producto" Type="Producto" IsForeignKey="true" />
+      <Association Name="Punto_Devolucion" Member="Punto" ThisKey="id_punto" OtherKey="id_punto" Type="Punto" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Entrega" Member="Entrega">
+    <Type Name="Entrega">
+      <Column Name="id_entrega" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="id_pedido" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="id_asignacion" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="estado_entrega" Type="System.String" DbType="VarChar(15) NOT NULL" CanBeNull="false" />
+      <Association Name="Asignacion_Ruta_Entrega" Member="Asignacion_Ruta" ThisKey="id_asignacion" OtherKey="id_asignacion" Type="Asignacion_Ruta" IsForeignKey="true" />
+      <Association Name="Pedido_Entrega" Member="Pedido" ThisKey="id_pedido" OtherKey="id_pedido" Type="Pedido" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Factura" Member="Factura">
+    <Type Name="Factura">
+      <Column Name="id_factura" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="id_usuario" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="id_punto" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="nit" Type="System.String" DbType="VarChar(15) NOT NULL" CanBeNull="false" />
+      <Column Name="nombre_propietario" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="fecha" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="total" Type="System.Decimal" DbType="Decimal(10,2) NOT NULL" CanBeNull="false" />
+      <Association Name="Factura_Detalle_Factura" Member="Detalle_Factura" ThisKey="id_factura" OtherKey="id_factura" Type="Detalle_Factura" />
+      <Association Name="Usuario_Factura" Member="Usuario" ThisKey="id_usuario" OtherKey="id_usuario" Type="Usuario" IsForeignKey="true" />
+      <Association Name="Punto_Factura" Member="Punto" ThisKey="id_punto" OtherKey="id_punto" Type="Punto" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Pedido" Member="Pedido">
+    <Type Name="Pedido">
+      <Column Name="id_pedido" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="id_usuario" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="id_ruta" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="id_punto" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="fecha_pedido" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="estado_pedido" Type="System.Decimal" DbType="Decimal(1,0) NOT NULL" CanBeNull="false" />
+      <Association Name="Pedido_Detalle_Pedido" Member="Detalle_Pedido" ThisKey="id_pedido" OtherKey="id_pedido" Type="Detalle_Pedido" />
+      <Association Name="Pedido_Entrega" Member="Entrega" ThisKey="id_pedido" OtherKey="id_pedido" Type="Entrega" />
+      <Association Name="Usuario_Pedido" Member="Usuario" ThisKey="id_usuario" OtherKey="id_usuario" Type="Usuario" IsForeignKey="true" />
+      <Association Name="Punto_Pedido" Member="Punto" ThisKey="id_punto" OtherKey="id_punto" Type="Punto" IsForeignKey="true" />
+      <Association Name="Ruta_Pedido" Member="Ruta" ThisKey="id_ruta" OtherKey="id_ruta" Type="Ruta" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Producto" Member="Producto">
+    <Type Name="Producto">
+      <Column Name="id_producto" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="descripcion_producto" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="precio_producto" Type="System.Decimal" DbType="Decimal(6,2) NOT NULL" CanBeNull="false" />
+      <Column Name="stock" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="estado_producto" Type="System.Decimal" DbType="Decimal(1,0) NOT NULL" CanBeNull="false" />
+      <Association Name="Producto_Detalle_Factura" Member="Detalle_Factura" ThisKey="id_producto" OtherKey="id_producto" Type="Detalle_Factura" />
+      <Association Name="Producto_Detalle_Pedido" Member="Detalle_Pedido" ThisKey="id_producto" OtherKey="id_producto" Type="Detalle_Pedido" />
+      <Association Name="Producto_Devolucion" Member="Devolucion" ThisKey="id_producto" OtherKey="id_producto" Type="Devolucion" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Punto" Member="Punto">
+    <Type Name="Punto">
+      <Column Name="id_punto" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="id_ruta" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="departamento_punto" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="municipio_punto" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="direccion_punto" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="estado_punto" Type="System.Decimal" DbType="Decimal(1,0) NOT NULL" CanBeNull="false" />
+      <Column Name="detalles_punto" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="propietario_punto" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="nit_punto" Type="System.String" DbType="VarChar(15) NOT NULL" CanBeNull="false" />
+      <Column Name="telefono_punto" Type="System.String" DbType="VarChar(9) NOT NULL" CanBeNull="false" />
+      <Association Name="Punto_Devolucion" Member="Devolucion" ThisKey="id_punto" OtherKey="id_punto" Type="Devolucion" />
+      <Association Name="Punto_Factura" Member="Factura" ThisKey="id_punto" OtherKey="id_punto" Type="Factura" />
+      <Association Name="Punto_Pedido" Member="Pedido" ThisKey="id_punto" OtherKey="id_punto" Type="Pedido" />
+      <Association Name="Ruta_Punto" Member="Ruta" ThisKey="id_ruta" OtherKey="id_ruta" Type="Ruta" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Ruta" Member="Ruta">
+    <Type Name="Ruta">
+      <Column Name="id_ruta" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="descripcion_ruta" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="estado_ruta" Type="System.Decimal" DbType="Decimal(1,0) NOT NULL" CanBeNull="false" />
+      <Association Name="Ruta_Asignacion_Ruta" Member="Asignacion_Ruta" ThisKey="id_ruta" OtherKey="id_ruta" Type="Asignacion_Ruta" />
+      <Association Name="Ruta_Pedido" Member="Pedido" ThisKey="id_ruta" OtherKey="id_ruta" Type="Pedido" />
+      <Association Name="Ruta_Punto" Member="Punto" ThisKey="id_ruta" OtherKey="id_ruta" Type="Punto" />
+    </Type>
+  </Table>
+</Database>
